@@ -1,5 +1,10 @@
 #!/bin/bash
 
-rclone sync /home/tom/Documents/BSc\ Cyber\ Security Drive:BSc\ Cyber\ Security -P --exclude "node_modules/**" --copy-links
+echo "Backing up Cyber Security Documents" 
 
-rclone sync /obsidian Drive:Backups/Obsidian -P --copy-links
+rclone bisync /home/tom/Documents/BSc\ Cyber\ Security Drive:BSc\ Cyber\ Security -P --exclude "node_modules/**" --copy-links
+
+
+echo "Backung up obsidian"
+
+rclone sync /obsidian Drive:Backups/Obsidian -P --copy-links --exclude ".git/"

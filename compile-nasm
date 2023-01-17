@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+		echo "Usage: $0 <nasm source file>"
+		exit 1
+fi
+
+name=$(echo $1 | cut -d"."	-f1)
+
+if nasm -f elf64 $1 -o $name.o ; then 
+	ld -o $name $name.o
+	rm $name.o
+	echo "Nasm complied sucessfully 
+Use ./$name to run"
+else
+	echo "Nasm compile failed"
+	exit 1
+fi
