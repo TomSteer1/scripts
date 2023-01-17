@@ -1,0 +1,10 @@
+#!/bin/bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+source ~/.bashrc
+source ~/.zshrc
+if [ command -v nvm ]; then
+		nvm install --lts
+		echo "Node installed successfully"
+else
+		echo "Node installation failed"
+fi
