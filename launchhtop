@@ -1,0 +1,3 @@
+#!/bin/bash
+# Opens htop in a floating window with a width of 760 and a height of 480
+bspc rule -a \* -o state=floating rectangle=764x444+618+338 && kitty htop $@

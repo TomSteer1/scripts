@@ -1,0 +1,4 @@
+#!/bin/bash
+# Scratchpad
+
+bspc rule -a \* -o state=floating sticky=on layer=above && kitty --class scratchpad
