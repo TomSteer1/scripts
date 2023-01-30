@@ -1,6 +1,6 @@
 #!/bin/bash
 
-modules=("SDS" "OSCP" "NCCD" "CF" "CSAO" "DSCS")
+modules=("SDS" "OSCC" "NCCD" "CF" "CSAO" "DSCS")
 rootdir="~/Documents/BSc\ Cyber\ Security"
 
 # Create a menu of modules
@@ -11,7 +11,7 @@ select module in "${modules[@]}"; do
 				cd ~/Documents/BSc\ Cyber\ Security/WM145\ -\ Software\ Development\ and\ Security/
 				break
 				;;
-			"OSCP")
+			"OSCC")
 				cd ~/Documents/BSc\ Cyber\ Security/WM144\ -\ Operating\ Systems\ in\ the\ Cyber\ Context
 				break
 				;;
