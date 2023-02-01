@@ -25,5 +25,5 @@ if [[ ! -f $vpnconfig ]]; then
 fi
 
 ## Connect to vpn
-exec sudo openvpn --config "$vpnconfig" --up /etc/openvpn/client/client.up --down /etc/openvpn/client/client.down --script-security 2
+sudo openvpn --config "$vpnconfig" --up /etc/openvpn/client/client.up --down /etc/openvpn/client/client.down --script-security 2
 
