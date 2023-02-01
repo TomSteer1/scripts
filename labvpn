@@ -1,0 +1,29 @@
+#!/bin/bash
+
+## Config
+vpnconfig="$HOME/lab-vpn.conf"
+
+
+## Get the correct config scripts
+if [[ ! -f /etc/openvpn/client/client.up ]]; then
+	sudo curl https://raw.githubusercontent.com/OpenVPN/openvpn/master/contrib/pull-resolv-conf/client.up -o /etc/openvpn/client/client.up
+	sudo chmod +x /etc/openvpn/client/client.up
+fi
+if [[ ! -f /etc/openvpn/client/client.down ]]; then
+	sudo curl https://raw.githubusercontent.com/OpenVPN/openvpn/master/contrib/pull-resolv-conf/client.down -o /etc/openvpn/client/client.down
+	sudo chmod +x /etc/openvpn/client/client.down
+fi
+
+
+## Check if the config file exists
+if [[ ! -f $vpnconfig ]]; then
+	if [[ $1 == "" ]]; then
+		echo "Please provide the VPN config file as the first argument"
+		exit 1
+	fi
+	vpnconfig=$1
+fi
+
+## Connect to vpn
+exec sudo openvpn --config "$vpnconfig" --up /etc/openvpn/client/client.up --down /etc/openvpn/client/client.down --script-security 2
+
