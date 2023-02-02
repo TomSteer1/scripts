@@ -1,0 +1,9 @@
+#!/bin/bash
+## This script assumes a base arch xorg install
+sudo pacman -S git --noconfirm
+git clone https://github.com/tomster1/dotfiles $HOME/dotfiles
+git clone https://github.com/tomstee1/scripts $HOME/scripts
+cd $HOME/dotfiles
+./install.sh
+sudo systemctl enable lightdm
+sudo systemctl start lightdm
