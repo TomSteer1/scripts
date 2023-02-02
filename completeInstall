@@ -2,7 +2,7 @@
 ## This script assumes a base arch xorg install
 sudo pacman -S git --noconfirm
 git clone https://github.com/tomsteer1/dotfiles $HOME/dotfiles
-git clone https://github.com/tomstee1/scripts $HOME/scripts
+git clone https://github.com/tomsteer1/scripts $HOME/scripts
 cd $HOME/dotfiles
 ./install.sh
 sudo systemctl enable lightdm
