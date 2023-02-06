@@ -7,7 +7,7 @@
         let htmlString = '<ul>';
         ignoreList = ["CNAME","index.html"]
         for (let file of data) {
-          if(!ignoreList.includes(file.name)
+          if(!ignoreList.includes(file.name))
           {
             htmlString += `<li><a href="${file.path}">${file.name}</a></li>`;
           }
