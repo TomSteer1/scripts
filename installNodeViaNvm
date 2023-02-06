@@ -1,5 +1,5 @@
 #!/bin/bash
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash > /dev/null
 
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
@@ -7,10 +7,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Install latest version of node
-
-if [ command -v nvm ]; then
-		nvm install --lts
-		echo "Node installed successfully"
-else
-		echo "Node installation failed"
-fi
+nvm install --lts
