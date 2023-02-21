@@ -7,5 +7,9 @@ cd $HOME/dotfiles
 ./install.sh
 mkdir $HOME/.ssh
 sudo chsh -s /bin/zsh $USER
-sudo systemctl enable lightdm
-sudo systemctl start lightdm
+if [ $(hostname) = "virtual" ]; then
+	sudo pacman -S spice-vdagent --noconfirm
+	cp $HOME/dotfiles/desktop/virtualxinitrc $HOME/.xinitrc
+else
+	sudo systemctl enable --now lightdm
+fi
