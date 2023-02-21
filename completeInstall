@@ -1,5 +1,6 @@
 #!/bin/bash
 ## This script assumes a base arch xorg install
+sudo pacman -Syu --noconfirm
 sudo pacman -S git --noconfirm --needed
 git clone https://github.com/tomsteer1/dotfiles $HOME/dotfiles
 git clone https://github.com/tomsteer1/scripts $HOME/scripts
@@ -8,7 +9,7 @@ cd $HOME/dotfiles
 mkdir $HOME/.ssh
 sudo chsh -s /bin/zsh $USER
 if [ $(hostname) = "virtual" ]; then
-	sudo pacman -S spice-vdagent --noconfirm --needed
+	sudo pacman -S spice-vdagent --noconfirm
 	cp $HOME/dotfiles/desktop/virtualxinitrc $HOME/.xinitrc
 else
 	sudo systemctl enable --now lightdm
