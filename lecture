@@ -1,44 +1,18 @@
-#!/bin/bash
+#!/bin/zsh
 ## To use
 # source lecture
 # lecture
 
 lecture () {
 	local modules=("SDS" "OSCC" "NCCD" "CF" "CSAO" "DSCS")
-	local rootdir="~/Documents/BSc\ Cyber\ Security"
-
+	local rootdir="$HOME/Documents/BSc Cyber Security"
+	local dirs=("WM145 - Software Development and Security/" "WM144 - Operating Systems in the Cyber Context" "WM143 Networks Communication and Cyber Defence" "WM179 - Cyber Fundamentals" "WM140 - Cyber Systems Architecture and Organisation" "WM141 - Discrete Structures for Cyber Security")
 	# Create a menu of modules
-	echo "Please select a module:"
-	select module in "${modules[@]}"; do
-			case $module in
-				"SDS")
-					cd ~/Documents/BSc\ Cyber\ Security/WM145\ -\ Software\ Development\ and\ Security/
-					break
-					;;
-				"OSCC")
-					cd ~/Documents/BSc\ Cyber\ Security/WM144\ -\ Operating\ Systems\ in\ the\ Cyber\ Context
-					break
-					;;
-				"NCCD")
-					cd ~/Documents/BSc\ Cyber\ Security/WM143\ Networks\ Communication\ and\ Cyber\ Defence
-					break
-					;;
-				"CF")
-					cd ~/Documents/BSc\ Cyber\ Security/WM179\ -\ Cyber\ Fundamentals
-					break
-					;;
-				"CSAO")
-					cd ~/Documents/BSc\ Cyber\ Security/WM140\ -\ Cyber\ Systems\ Architecture\ and\ Organisation
-					break
-					;;
-				"DSCS")
-					cd ~/Documents/BSc\ Cyber\ Security/WM141\ -\ Discrete\ Structures\ for\ Cyber\ Security
-					break
-					;;
-				*)
-					echo "Invalid option $REPLY"
-					;;
-			esac
+	for i in {1.."${#modules[@]}"}; do
+		echo "$i) ${modules[$i]}"
 	done
+	read -k1 module
+	cd $rootdir/${dirs[$module]}
+
 }
 
