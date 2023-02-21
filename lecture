@@ -1,40 +1,44 @@
 #!/bin/bash
+## To use
+# source lecture
+# lecture
 
-modules=("SDS" "OSCC" "NCCD" "CF" "CSAO" "DSCS")
-rootdir="~/Documents/BSc\ Cyber\ Security"
+lecture () {
+	local modules=("SDS" "OSCC" "NCCD" "CF" "CSAO" "DSCS")
+	local rootdir="~/Documents/BSc\ Cyber\ Security"
 
-# Create a menu of modules
-echo "Please select a module:"
-select module in "${modules[@]}"; do
-		case $module in
-			"SDS")
-				cd ~/Documents/BSc\ Cyber\ Security/WM145\ -\ Software\ Development\ and\ Security/
-				break
-				;;
-			"OSCC")
-				cd ~/Documents/BSc\ Cyber\ Security/WM144\ -\ Operating\ Systems\ in\ the\ Cyber\ Context
-				break
-				;;
-			"NCCD")
-				cd ~/Documents/BSc\ Cyber\ Security/WM143\ Networks\ Communication\ and\ Cyber\ Defence
-				break
-				;;
-			"CF")
-				cd ~/Documents/BSc\ Cyber\ Security/WM179\ -\ Cyber\ Fundamentals
-				break
-				;;
-			"CSAO")
-				cd ~/Documents/BSc\ Cyber\ Security/WM140\ -\ Cyber\ Systems\ Architecture\ and\ Organisation
-				break
-				;;
-			"DSCS")
-				cd ~/Documents/BSc\ Cyber\ Security/WM141\ -\ Discrete\ Structures\ for\ Cyber\ Security
-				break
-				;;
-			*)
-				echo "Invalid option $REPLY"
-				;;
-		esac
-done
+	# Create a menu of modules
+	echo "Please select a module:"
+	select module in "${modules[@]}"; do
+			case $module in
+				"SDS")
+					cd ~/Documents/BSc\ Cyber\ Security/WM145\ -\ Software\ Development\ and\ Security/
+					break
+					;;
+				"OSCC")
+					cd ~/Documents/BSc\ Cyber\ Security/WM144\ -\ Operating\ Systems\ in\ the\ Cyber\ Context
+					break
+					;;
+				"NCCD")
+					cd ~/Documents/BSc\ Cyber\ Security/WM143\ Networks\ Communication\ and\ Cyber\ Defence
+					break
+					;;
+				"CF")
+					cd ~/Documents/BSc\ Cyber\ Security/WM179\ -\ Cyber\ Fundamentals
+					break
+					;;
+				"CSAO")
+					cd ~/Documents/BSc\ Cyber\ Security/WM140\ -\ Cyber\ Systems\ Architecture\ and\ Organisation
+					break
+					;;
+				"DSCS")
+					cd ~/Documents/BSc\ Cyber\ Security/WM141\ -\ Discrete\ Structures\ for\ Cyber\ Security
+					break
+					;;
+				*)
+					echo "Invalid option $REPLY"
+					;;
+			esac
+	done
+}
 
-exec zsh
