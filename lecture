@@ -6,7 +6,7 @@
 lecture () {
 	local modules=("SDS" "OSCC" "NCCD" "CF" "CSAO" "DSCS")
 	local rootdir="$HOME/Documents/BSc Cyber Security"
-	local dirs=("WM145 - Software Development and Security/" "WM144 - Operating Systems in the Cyber Context" "WM143 Networks Communication and Cyber Defence" "WM179 - Cyber Fundamentals" "WM140 - Cyber Systems Architecture and Organisation" "WM141 - Discrete Structures for Cyber Security")
+	local dirs=("WM145 - Software Development and Security/" "WM144 - Operating Systems in the Cyber Context" "WM143 - Networks, Communication and Cyber Defence" "WM179 - Cyber Fundamentals" "WM140 - Cyber Systems Architecture and Organisation" "WM141 - Discrete Structures for Cyber Security")
 	# Create a menu of modules
 	for i in {1.."${#modules[@]}"}; do
 		echo "$i) ${modules[$i]}"
