@@ -1,10 +1,8 @@
 #!/bin/bash
+echo "Starting backup"
+borg create --stats --progress /home/tom/backups::'{now:%Y-%m-%d_%H:%M:%S}' /home/tom/Documents /home/tom/Pictures /obsidian
+echo "Backup finished"
+echo "Uploading to Google Drive"
+rclone copy /home/tom/backups drive:Backups/System\ Backups/$(cat /etc/hostname) --progress 
+echo "Upload finished"
 
-echo "Backing up Cyber Security Documents" 
-
-rclone sync /home/tom/Documents/BSc\ Cyber\ Security Drive:BSc\ Cyber\ Security -P --exclude "node_modules/**" --copy-links
-
-
-echo "Backung up obsidian"
-
-rclone sync /obsidian Drive:Backups/Obsidian -P --copy-links --exclude ".git/"
