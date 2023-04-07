@@ -1,4 +1,9 @@
 #!/bin/bash
+## Description: Restarts pulseaudio socket to fix a strange bug I was having
+## Dependencies: pulseaudio
+## Usage: fix-audio
+## Author: Tom Steer
+
 
 systemctl --user stop pulseaudio.socket
 systemctl --user start pulseaudio.socket

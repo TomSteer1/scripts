@@ -1,6 +1,12 @@
 #!/bin/bash
+## Description: Creates a backup of Documents, Pictures and Obsidian using borg and then syncs it to the cloud using rclone	
+## Depences: borg, rclone
+## Usage: backup
+## Author: Tom Steer
+
+
 echo "Starting backup"
-borg create --stats --progress /home/tom/backups::'{now:%Y-%m-%d_%H:%M:%S}' /home/tom/Documents /home/tom/Pictures /obsidian
+borg create --stats --progress /home/tom/backups::'{now:%Y-%m-%d_%H:%M:%S}' /home/tom/Documents /home/tom/Pictures /obsidian --exclude "**/venv" --exclude "**/node_modules"
 echo "Backup finished"
 echo "Uploading to Google Drive"
 rclone copy /home/tom/backups drive:Backups/System\ Backups/$(cat /etc/hostname) --progress 

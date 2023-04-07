@@ -1,0 +1,18 @@
+#!/bin/bash
+## Description: Creates a backup of Documents, Picture and obsidian using borg and stores it on an external drive
+## Dependencies: borg
+## Usage: ext_backup <drive_root>
+## Author: Tom Steer
+
+
+if [ -z "$1" ]; then
+		echo "Usage: $0 <USB_ROOT>"
+		exit 1
+fi
+
+backup
+
+echo "Starting Physical backup"
+borg create --stats --progress $1/Backups/Laptop::'{now:%Y-%m-%d_%H:%M:%S}' ~/Documents ~/Pictures /obsidian --exclude "**/venv" --exclude "**/node_modules"
+echo "Backup finished"
+
