@@ -1,4 +1,9 @@
 #!/bin/bash
+## Description: A script to connect to VPN server using dns settings of the server
+## Dependencies: curl, openvpn
+## Usage: lab-vpn <vpnconfig>(optional)
+## Author: Tom Steer
+
 
 ## Config
 vpnconfig="$HOME/lab-vpn.conf"

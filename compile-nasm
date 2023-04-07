@@ -1,4 +1,9 @@
 #!/bin/bash
+## Description: Compilse a nasm source file into an executable
+## Dependencies: nasm
+## Usage: compile-nasm <source file>
+## Author: Tom Steer
+
 
 if [ -z "$1" ]; then
 		echo "Usage: $0 <nasm source file>"
