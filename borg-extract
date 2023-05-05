@@ -1,0 +1,36 @@
+#!/bin/bash
+## Description: Extracts the contents of a borg backup archive to a temporary directory
+## Dependencies: borg
+## Usage: borg-extract <archive>
+## Author: Tom Steer
+
+# Vars
+archive=""
+tempdir="/tmp/borg-extract"
+# Set the archive to the first argument
+# If no argument is given, print usage and exit
+if [ -z "$1" ]; then
+		echo "Usage: read-backup <archive>" 1>&2
+		exit 1
+else
+		archive=$1
+fi
+
+# Make the temporary directory
+rm -rf $tempdir
+mkdir -p $tempdir
+cd $tempdir
+# List the contents of the archive
+borg list $archive
+
+# Ask the user which files they want to extract
+# If no files are given, print usage and exit
+
+echo "Which archive would you like to extract?" 1>&2
+echo "Enter the archive id:" 1>&2
+read id
+
+borg extract $archive::$id -p
+
+echo "Extracted files to $tempdir" 1>&2
+
