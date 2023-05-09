@@ -1,0 +1,20 @@
+#!/bin/bash
+## Description: Compilse a c file without stack protection
+## Dependencies: gcc
+## Usage: compile-unsafe <source file>
+## Author: Tom Steer
+
+
+if [ -z "$1" ]; then
+		echo "Usage: $0 <c source file>"
+		exit 1
+fi
+
+name=$(echo $1 | cut -d"."	-f1)
+
+if gcc -fno-stack-protector -z execstack -o $name $1; then
+		echo "Compiled $name"
+else
+		echo "Failed to compile $name"
+fi
+
