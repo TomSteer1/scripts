@@ -5,20 +5,20 @@
 ## Author: Tom Steer
 
 # Check if root
-if [[ $EUID -ne 0 ]]; then
-	 echo "This script must be run as root" 
-	 exit 1
-fi
+#if [[ $EUID -ne 0 ]]; then
+#	 echo "This script must be run as root" 
+#	 exit 1
+#fi
 
 # Check if ASLR is enabled
 if [[ $(cat /proc/sys/kernel/randomize_va_space) == "0" ]]; then
 	echo "ASLR is currently disabled"
 	echo "Enabling ASLR"
-	echo 2 > /proc/sys/kernel/randomize_va_space
+	echo 2 | sudo tee /proc/sys/kernel/randomize_va_space > /dev/null
 	echo "ASLR is now enabled"
 else
 	echo "ASLR is currently enabled"
 	echo "Disabling ASLR"
-	echo 0 > /proc/sys/kernel/randomize_va_space
+	echo 0 | sudo tee /proc/sys/kernel/randomize_va_space > /dev/null
 	echo "ASLR is now disabled"
 fi
