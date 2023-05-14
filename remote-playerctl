@@ -1,0 +1,44 @@
+#!/bin/bash
+## Description: Script to control media players remotely
+## Dependencies: ssh playerctl
+## Usage: remote-playerctl [player] [command]
+## Arguments: 
+## 		player - player to control (ssh alias or user@host)
+## 		command - command to send to player
+## Author: Tom Steer
+
+# Set variables
+player=$1
+command=$2
+
+# Usage function
+usage() {
+	echo "Usage: pulseaudio-control [player] [command]" >&2
+	echo "Arguments:" >&2
+	echo "	player - player to control (ssh alias or user@host)" >&2
+	echo "	command - command to send to player" >&2
+	echo "Author: Tom Steer" >&2
+}
+
+# Print usage if no arguments
+if [ $# -eq 0 ]; then
+	usage
+	exit 1
+fi
+
+if [ -z "$player" ]; then
+	echo "No player specified" >&2
+	exit 1
+fi
+
+if [ -z "$command" ]; then
+	echo "No command specified" >&2
+	exit 1
+fi
+
+# Send command to player
+ssh $player "playerctl $command"
+
+exit 0
+
+
