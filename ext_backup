@@ -4,6 +4,11 @@
 ## Usage: ext_backup <drive_root>
 ## Author: Tom Steer
 
+if [ -z "$EXT_BACKUP_NAME" ]; then
+	EXT_BACKUP_NAME=$(cat /etc/hostname)
+fi
+
+echo "Using backup name: $EXT_BACKUP_NAME"
 
 if [ -z "$1" ]; then
 		echo "Usage: $0 <USB_ROOT>"
@@ -13,6 +18,6 @@ fi
 backup
 
 echo "Starting Physical backup"
-borg create --stats --progress $1/Backups/Laptop::'{now:%Y-%m-%d_%H:%M:%S}' ~/Documents ~/Pictures /obsidian --exclude "**/venv" --exclude "**/node_modules"
+borg create --stats --progress $1/Backups/$EXT_BACKUP_NAME::'{now:%Y-%m-%d_%H:%M:%S}' ~/Documents ~/Pictures /obsidian --exclude "**/venv" --exclude "**/node_modules"
 echo "Backup finished"
 

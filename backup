@@ -4,11 +4,14 @@
 ## Usage: backup
 ## Author: Tom Steer
 
+if [[ -z $EXT_BACKUP_NAME ]]; then
+	EXT_BACKUP_NAME=$(cat /etc/hostname)
+fi
 
 echo "Starting backup"
 borg create --stats --progress /home/tom/backups::'{now:%Y-%m-%d_%H:%M:%S}' /home/tom/Documents /home/tom/Pictures /obsidian --exclude "**/venv" --exclude "**/node_modules"
 echo "Backup finished"
 echo "Uploading to Google Drive"
-rclone copy /home/tom/backups drive:Backups/System\ Backups/$(cat /etc/hostname) --progress 
+rclone sync /home/tom/backups drive:Backups/System\ Backups/$EXT_BACKUP_NAME --progress 
 echo "Upload finished"
 
