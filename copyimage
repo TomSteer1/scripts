@@ -1,0 +1,12 @@
+#!/bin/bash
+## Description: Copies the image to clipboard
+## Dependencies: xclip
+## Usage: copyimage <image>	
+## Arguments: <image> is the image to be copied
+## Author: Tom Steer
+
+# Determine the image type
+image_type=$(file -b --mime-type "$1")
+
+# Copy the image to the clipboard
+xclip -selection clipboard -t "$image_type" -i "$1"
