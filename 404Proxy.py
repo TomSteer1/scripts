@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Python3 proxy server to change non 404 status code pages to 404
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
