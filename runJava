@@ -1,5 +1,5 @@
 #!/bin/bash
-## Description: Compiles and runs a java file
+## Description: Compiles and runs a java file then deletes the class file
 ## Dependencies: java, javac, basename, mktemp, rm
 ## Usage: runJava <filename>
 ## Arguments: <filename> - the name of the java file to compile and run
