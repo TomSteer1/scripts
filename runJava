@@ -1,0 +1,36 @@
+#!/bin/bash
+## Description: Compiles and runs a java file
+## Dependencies: java, javac
+## Usage: runJava <filename>
+## Arguments: <filename> - the name of the java file to compile and run
+## Author: Tom Steer
+
+# Check that the correct number of arguments have been passed
+if [ $# -ne 1 ]; then
+		echo "Usage: runJava <filename>"
+		exit 1
+fi
+
+# Check that the file exists
+if [ ! -f $1 ]; then
+		echo "File $1 does not exist"
+		exit 1
+fi
+
+# Check that the file is a java file
+if [[ $1 != *.java ]]; then
+		echo "File $1 is not a java file"
+		exit 1
+fi
+
+# Generate temp dir
+dir=$(mktemp -d)
+
+# Compile the file
+javac $1 -d $dir
+
+# Run the file
+java -cp $dir $(basename $1 .java)
+
+# Remove the temp dir
+rm -rf $dir
