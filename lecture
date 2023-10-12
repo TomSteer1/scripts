@@ -4,7 +4,7 @@
 # lecture
 
 lecture () {
-	local modules=("HBCS" "PLCS" "ISS" "IF" "IRSM" "CCSE")
+	local modules=("HBCS" "PLCS" "ISS" "IM" "IRSM" "CCSE")
 	local rootdir="$HOME/Documents/BSc Cyber Security"
 	local dirs=("WM241 - Human Behavior in Cyber Systems" "WM245 - Programming Languages for Cyber Security" "WM242 - Implementing Secure Systems Seminar" "WM243 - Information Management" "WM279 - Information Risk and Security Management" "WM240 - Cyber Context of Software Engineering")
 	# Create a menu of modules
