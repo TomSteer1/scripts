@@ -1,0 +1,36 @@
+#!/bin/bash
+## Description: Compiles and runs a cs file then deletes the class file
+## Dependencies: csc, rm, mktemp, mono
+## Usage: runCs <filename>
+## Arguments: <filename> - the name of the cs file to compile and run
+## Author: Tom Steer
+
+# Check that the correct number of arguments have been passed
+if [ $# -ne 1 ]; then
+		echo "Usage: runCs <filename>"
+		exit 1
+fi
+
+# Check that the file exists
+if [ ! -f $1 ]; then
+		echo "File $1 does not exist"
+		exit 1
+fi
+
+# Check that the file is a cs file
+if [[ $1 != *.cs ]]; then
+		echo "File $1 is not a C# file"
+		exit 1
+fi
+
+# Generate temp dir
+dir=$(mktemp -d)
+
+# Compile the file
+csc -out:$dir/$(basename $1 .cs).exe $1 "/home/tom/Documents/BSc Cyber Security/WM240 - Cyber Context of Software Engineering/GlobalModules/GlobalModules.cs"
+
+# Run the file
+mono $dir/$(basename $1 .cs).exe 
+
+# Remove the temp dir
+rm -rf $dir
