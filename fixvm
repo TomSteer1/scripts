@@ -4,7 +4,7 @@
 git clone https://github.com/nan0desu/vmware-host-modules /tmp/vmware-host-modules
 cd /tmp/vmware-host-modules
 
-git checkout tmp/workstation-17.5.2-k6.9.1
+git checkout /tmp/workstation-17.5.2-k6.9.1
 
 make clean
 make
