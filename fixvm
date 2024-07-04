@@ -1,8 +1,9 @@
 #!/bin/bash
 # Install vmware drivers and sign key
 
-git clone https://github.com/nan0desu/vmware-host-modules /tmp/vmware-host-modules
-cd /tmp/vmware-host-modules
+rm -r ~/wmare-host-modules
+git clone https://github.com/nan0desu/vmware-host-modules ~/vmware-host-modules
+cd ~/vmware-host-modules
 
 git checkout /tmp/workstation-17.5.2-k6.9.1
 
