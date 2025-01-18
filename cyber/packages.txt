@@ -1,0 +1,3 @@
+feroxbuster
+crackmapexec
+
