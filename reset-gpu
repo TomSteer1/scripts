@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Attempting to reset the GPU..."
+
+sudo cat /sys/kernel/debug/dri/128/amdgpu_gpu_recover
+sudo cat /sys/kernel/debug/dri/0/amdgpu_gpu_recover

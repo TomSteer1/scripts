@@ -1,0 +1,83 @@
+#!/bin/bash
+## Description: Runs the docker container supplied in the first argument
+## Dependencies: docker
+## Usage: ./dockerrun.sh <docker_image> <args>
+## Arguments:
+##   docker_image: The Docker image to run (Specified in ~/scripts/dockerfiles)
+##   args: Additional arguments to pass to the Docker container
+## Author: Tom Steer
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 <docker_image> [args]"
+	exit 1
+fi
+
+
+# If the docker image is rebuild then take the second argument as the docker image name and rebuild
+DOCKER_IMAGE="$1"
+shift
+rebuild=false
+if [ "$DOCKER_IMAGE" = "rebuild" ]; then
+	if [ -z "$1" ]; then
+		echo "Usage: $0 rebuild <docker_image> [args]"
+		exit 1
+	fi
+	rebuild=true
+	DOCKER_IMAGE="$1"
+	shift
+fi
+
+if [ "$DOCKER_IMAGE" = "list" ]; then
+	echo "Available Docker images:"
+	ls /home/tom/scripts/dockerfiles
+	exit 0
+fi
+
+# Check if able to run docker commands
+docker info > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+	# Check if root
+	if [ "$(id -u)" -ne 0 ]; then
+		echo "Restarting as root to run docker commands..."
+		if [ "$rebuild" = true ]; then
+			echo "Running: sudo $0 rebuild $DOCKER_IMAGE $@"
+			exec sudo "$0" rebuild "$DOCKER_IMAGE" "$@"
+		else
+			echo "Running: sudo $0 $DOCKER_IMAGE $@"
+			exec sudo "$0" "$DOCKER_IMAGE" "$@"
+		fi
+	else
+		echo "Docker is not running"
+		echo "Please ensure Docker is installed and running"
+		exit 1
+	fi
+fi
+
+if ! docker image inspect "scripts/$DOCKER_IMAGE" > /dev/null 2>&1; then
+	echo "Docker image 'scripts/$DOCKER_IMAGE' not found. Building..."
+	rebuild=true
+fi
+
+if [ "$rebuild" = true ]; then
+	docker build -t "scripts/$DOCKER_IMAGE" /home/tom/scripts/dockerfiles/"$DOCKER_IMAGE"
+	if [ $? -ne 0 ]; then
+		echo "Failed to build Docker image 'scripts/$DOCKER_IMAGE'."
+		exit 1
+	fi
+fi
+
+# Run the docker container from the docker compose file if one exists
+if [ ! -f /home/tom/scripts/dockerfiles/$DOCKER_IMAGE/docker-compose.yml ]; then
+	docker run --rm -it "scripts/$DOCKER_IMAGE" "$@"
+	if [ $? -ne 0 ]; then
+		echo "Failed to run Docker container 'scripts/$DOCKER_IMAGE'."
+		exit 1
+	fi
+	exit 0
+fi
+
+docker compose -f /home/tom/scripts/dockerfiles/$DOCKER_IMAGE/docker-compose.yml run --rm app "$@"
+if [ $? -ne 0 ]; then
+	echo "Failed to run Docker container 'scripts/$DOCKER_IMAGE'."
+	exit 1
+fi

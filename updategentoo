@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Check if the script is run as root
+if [[ $EUID -ne 0 ]]; then
+	echo "Restarting the script with sudo..."
+	exec sudo "$0" "$@"
+fi
+
+# Update the repo
+emaint -a sync
+# Update the system
+emerge --ask --verbose --update --deep --newuse @world
+
