@@ -5,9 +5,9 @@
 ## Arguments: -set [value], -get, -inc [value], -dec [value]
 ## Author: Tom Steer
 
-
-MAX_BRIGHTNESS=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-CURRENT_BRIGHTNESS=$(cat /sys/class/backlight/intel_backlight/brightness)
+BLFP="amdgpu_bl0"
+MAX_BRIGHTNESS=$(cat /sys/class/backlight/$BLFP/max_brightness)
+CURRENT_BRIGHTNESS=$(cat /sys/class/backlight/$BLFP/brightness)
 VALUE=$2
 
 
@@ -19,7 +19,7 @@ if [ "$1" = "-set" ]; then
 	if [ "$2" -lt 0 ]; then
 		VALUE=10
 	fi
-	echo "$VALUE" | sudo tee /sys/class/backlight/intel_backlight/brightness
+	echo "$VALUE" | sudo tee "/sys/class/backlight/$BLFP/brightness"
 
 # Get brightness
 elif [ "$1" = "-get" ]; then
@@ -34,7 +34,7 @@ elif [ "$1" = "-inc" ]; then
 	if [ "$VALUE" -lt 1 ]; then
 		VALUE=10
 	fi
-	echo "$VALUE" | sudo tee /sys/class/backlight/intel_backlight/brightness
+	echo "$VALUE" | sudo tee "/sys/class/backlight/$BLFP/brightness"
 # Decrease brightness
 elif [ "$1" = "-dec" ]; then
 	VALUE=$(($CURRENT_BRIGHTNESS - $2))
@@ -44,5 +44,5 @@ elif [ "$1" = "-dec" ]; then
 	if [ "$VALUE" -lt 1 ]; then
 		VALUE=10
 	fi
-	echo "$VALUE" | sudo tee /sys/class/backlight/intel_backlight/brightness
+	echo "$VALUE" | sudo tee "/sys/class/backlight/$BLFP/brightness"
 fi
