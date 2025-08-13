@@ -29,8 +29,22 @@ fi
 
 if [ "$DOCKER_IMAGE" = "list" ]; then
 	echo "Available Docker images:"
-	ls /home/tom/scripts/dockerfiles
+	ls ~/scripts/dockerfiles
 	exit 0
+fi
+
+# Check if the docker image exists in the scripts directory
+if [ ! -d ~/scripts/dockerfiles/"$DOCKER_IMAGE" ]; then
+	echo "Docker image '$DOCKER_IMAGE' not found in ~/scripts/dockerfiles."
+	echo "Available Docker images:"
+	ls ~/scripts/dockerfiles
+	exit 1
+fi
+
+# Check if there is a .rebuild file in the docker image directory
+if [ -f ~/scripts/dockerfiles/"$DOCKER_IMAGE"/.rebuild ]; then
+	echo "Rebuilding Docker image '$DOCKER_IMAGE' due to .rebuild file."
+	rebuild=true
 fi
 
 # Check if able to run docker commands
@@ -59,7 +73,7 @@ if ! docker image inspect "scripts/$DOCKER_IMAGE" > /dev/null 2>&1; then
 fi
 
 if [ "$rebuild" = true ]; then
-	docker build -t "scripts/$DOCKER_IMAGE" /home/tom/scripts/dockerfiles/"$DOCKER_IMAGE"
+	docker build -t "scripts/$DOCKER_IMAGE" ~/scripts/dockerfiles/"$DOCKER_IMAGE"
 	if [ $? -ne 0 ]; then
 		echo "Failed to build Docker image 'scripts/$DOCKER_IMAGE'."
 		exit 1
@@ -67,7 +81,7 @@ if [ "$rebuild" = true ]; then
 fi
 
 # Run the docker container from the docker compose file if one exists
-if [ ! -f /home/tom/scripts/dockerfiles/$DOCKER_IMAGE/docker-compose.yml ]; then
+if [ ! -f ~/scripts/dockerfiles/$DOCKER_IMAGE/docker-compose.yml ]; then
 	docker run --rm -it "scripts/$DOCKER_IMAGE" "$@"
 	if [ $? -ne 0 ]; then
 		echo "Failed to run Docker container 'scripts/$DOCKER_IMAGE'."
@@ -76,7 +90,8 @@ if [ ! -f /home/tom/scripts/dockerfiles/$DOCKER_IMAGE/docker-compose.yml ]; then
 	exit 0
 fi
 
-docker compose -f /home/tom/scripts/dockerfiles/$DOCKER_IMAGE/docker-compose.yml run --rm app "$@"
+echo "Running with docker compose"
+docker compose -f ~/scripts/dockerfiles/$DOCKER_IMAGE/docker-compose.yml run --rm app "$@"
 if [ $? -ne 0 ]; then
 	echo "Failed to run Docker container 'scripts/$DOCKER_IMAGE'."
 	exit 1
