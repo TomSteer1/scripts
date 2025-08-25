@@ -9,7 +9,7 @@ if [[ -z $EXT_BACKUP_NAME ]]; then
 fi
 
 echo "Starting backup"
-borg create --stats --progress /home/tom/backups::'{now:%Y-%m-%d_%H:%M:%S}' /home/tom/Documents /home/tom/Pictures /obsidian --exclude "**/venv" --exclude "**/node_modules"
+borg create --stats --progress /home/tom/backups::'{now:%Y-%m-%d_%H:%M:%S}' /home/tom/Documents /home/tom/Pictures /home/tom/obsidian /home/tom/CTFs --exclude "**/venv" --exclude "**/node_modules"
 echo "Backup finished"
 echo "Uploading to Google Drive"
 rclone sync /home/tom/backups drive:Backups/System\ Backups/$EXT_BACKUP_NAME --progress 

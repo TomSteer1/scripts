@@ -58,6 +58,11 @@ done
 
 # If the docker image is rebuild then take the second argument as the docker image name and rebuild
 DOCKER_IMAGE="$1"
+if [ -z "$DOCKER_IMAGE" ]; then
+	echo "Error: No Docker image specified"
+	usage
+fi
+
 DOCKERFILE_PATH=$DOCKERFILES_DIR/"$DOCKER_IMAGE"
 shift
 
