@@ -1,0 +1,58 @@
+#!/bin/bash
+
+REPO_URL='https://api.github.com/repos/tomsteer1/tooling/contents/'
+
+list_options() {
+		#curl -s $REPO_URL | jq -r '.[].name' | sed 's/\.sh$//'
+		local tools_json=$(curl -s $REPO_URL)
+		echo "Available tools:"
+		echo "$tools_json" | jq -r '.[] | select(.name | endswith(".sh")) | .name' | sed 's/\.sh$//'
+}
+
+usage() {
+	echo "Usage: $0 [flags] <tool> [args...]"
+	echo "Flags:"
+	echo "  -l, --list        List available tools"
+	echo "  -h, --help        Show this help message"
+	exit 0
+}
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-l|--list)
+			list_options
+			exit 0
+			;;
+		-h|--help)
+			usage
+			;;
+		*)
+			TOOL_NAME=$1
+			shift
+			break
+			;;
+	esac
+done
+
+if [[ -z "$TOOL_NAME" ]]; then
+	echo "Error: No tool specified."
+	usage
+fi
+
+TOOL_URL="${REPO_URL}${TOOL_NAME}.sh"
+echo "Fetching tool '${REPO_URL}${TOOL_NAME}.sh'..."
+if ! curl -s --head --request GET "$TOOL_URL" | grep "HTTP/2 200" > /dev/null; then
+	echo "Error: tool '$TOOL_NAME' not found."
+	exit 1
+fi
+TOOL_CONTENT=$(curl -s $TOOL_URL | jq -r '.content' | base64 --decode)
+if [[ -z "$TOOL_CONTENT" ]]; then
+	echo "Error: Failed to retrieve tool content."
+	exit 1
+fi
+echo "$TOOL_CONTENT" | bash -s -- "$@"
+if [[ $? -ne 0 ]]; then
+	echo "Error: Tool execution failed."
+	exit 1
+fi
+exit 0
