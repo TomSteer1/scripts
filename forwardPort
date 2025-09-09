@@ -20,16 +20,29 @@ function usage() {
 		echo "Author: Tom Steer"
 }
 
+function checkDependencies() {
+	if ! command -v iptables &> /dev/null; then
+		echo "iptables could not be found. Please install it."
+		exit 1
+	fi
+}
+
+function checkForwardingEnabled() {
+	if [ "$(cat /proc/sys/net/ipv4/ip_forward)" -ne 1 ]; then
+		echo "IPv4 forwarding is not enabled. Enabling it..."
+		echo 1 > /proc/sys/net/ipv4/ip_forward
+		if [ $? -ne 0 ]; then
+			echo "Failed to enable IPv4 forwarding. Please run as root."
+			exit 1
+		fi
+		echo "IPv4 forwarding enabled."
+	fi
+}
+
 
 function forwardPort() {
 	if [ -z "$port" ]; then
 			echo "Usage: $0 <port>"
-			exit 1
-	fi
-
-	# Check if iptables is installed
-	if ! command -v iptables &> /dev/null; then
-			echo "iptables could not be found. Please install it."
 			exit 1
 	fi
 
@@ -74,19 +87,19 @@ function removePortForward() {
 	echo "Port $port removed from forwarding"
 }
 
-# Check if the script is run with --help flag
 if [[ "$1" == "--help" ]]; then
 	usage
 	exit 0
 fi
 
-# Check if being run as root
 if [ "$EUID" -ne 0 ]; then
 	echo "Not running as root. Restarting with sudo..."
 	exec sudo "$0" "$@"
 fi
 
-# Check if the script is run with --remove flag
+checkDependencies
+checkForwardingEnabled
+
 if [[ "$1" == "--remove" ]]; then
 	shift
 	port=$1
@@ -94,5 +107,4 @@ if [[ "$1" == "--remove" ]]; then
 	exit 0
 fi
 
-# Else forward the port
 forwardPort

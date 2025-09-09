@@ -1,0 +1,6 @@
+version: '3.8'  # or another version depending on your Docker setup
+services:
+  app:
+    image: scripts/gcp  # Assuming your Dockerfile is inside scripts/xss
+    volumes:
+      - ./data:/data  # Corrected volume syntax: host:container
