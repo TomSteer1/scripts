@@ -80,6 +80,24 @@ if [ -f $DOCKERFILE_PATH/.rebuild ]; then
 	REBUILD=true
 fi
 
+# Check if the sha1sum of the Dockerfile has changed
+if [ -f $DOCKERFILE_PATH/Dockerfile ]; then
+	CHECKSUM_FILE="$DOCKERFILE_PATH/.checksum"
+	CURRENT_CHECKSUM=$(sha1sum "$DOCKERFILE_PATH/Dockerfile" | awk '{print $1}')
+	if [ -f "$CHECKSUM_FILE" ]; then
+		SAVED_CHECKSUM=$(cat "$CHECKSUM_FILE")
+		if [ "$CURRENT_CHECKSUM" != "$SAVED_CHECKSUM" ]; then
+			echo "Rebuilding Docker image '$DOCKER_IMAGE' due to Dockerfile change."
+			REBUILD=true
+		fi
+	else
+		# No checksum file, so assume we need to build
+		REBUILD=true
+	fi
+	# Save the current checksum
+	echo -n "$CURRENT_CHECKSUM" > "$CHECKSUM_FILE"
+fi
+
 # Check if able to run docker commands
 docker info > /dev/null 2>&1
 if [ $? -ne 0 ]; then
