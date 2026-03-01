@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+
+challengeName=$1
+
+if [ -z "$challengeName" ]; then
+		echo "Please provide a challenge name."
+		exit 1
+fi
+
+version=1
+
+echo "Building $challengeName..."
+echo "Current version: $version"
+
+while true; do
+	echo "Checking if image reg.lilypadd.com/goosectf/$challengeName:v$version exists..."
+# Check if there is already a built image
+	if [ "$(sudo docker images -q $(echo reg.lilypadd.com/goosectf/$challengeName:v$version) 2> /dev/null)" ]; then
+			echo "Image already exists. Press Y to increase version or N to skip."
+			read -r -p "Do you want to increase the version? [Y/N] " response
+			if [[ "$response" =~ ^[Yy]$ ]]; then
+					echo "Increasing version..."
+					version=$((version + 1))
+			else
+					echo "Skipping build."
+					exit 0
+			fi
+	else
+			echo "Image does not exist. Building..."
+			break
+	fi
+done
+
+sudo docker build -t reg.lilypadd.com/goosectf/$challengeName:v$version -f Dockerfile .
+sudo docker push reg.lilypadd.com/goosectf/$challengeName:v$version
