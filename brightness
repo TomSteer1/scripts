@@ -32,7 +32,7 @@ elif [ "$1" = "-inc" ]; then
 		VALUE=$MAX_BRIGHTNESS
 	fi
 	if [ "$VALUE" -lt 1 ]; then
-		VALUE=10
+		VALUE=5
 	fi
 	echo "$VALUE" | sudo tee "/sys/class/backlight/$BLFP/brightness"
 # Decrease brightness
@@ -42,7 +42,7 @@ elif [ "$1" = "-dec" ]; then
 		VALUE=$MAX_BRIGHTNESS
 	fi
 	if [ "$VALUE" -lt 1 ]; then
-		VALUE=10
+		VALUE=5
 	fi
 	echo "$VALUE" | sudo tee "/sys/class/backlight/$BLFP/brightness"
 fi
